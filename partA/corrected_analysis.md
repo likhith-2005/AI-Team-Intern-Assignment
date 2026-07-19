@@ -223,3 +223,58 @@ Although higher throughput is observed for some larger workloads, throughput doe
 ### Corrected Recommendation
 
 Capacity planning should be based on measured operating points rather than linear extrapolation. Additional benchmarking across different workloads, prompt lengths, and hardware configurations should be completed before defining production scaling policies.
+
+
+## Claim 3
+
+**Original claim:**
+
+> Root cause: Hindi simply has more Unicode characters per word, so any tokenizer will struggle. This is a property of the script, not the tokenizer.
+
+### Evidence
+
+The original benchmark evaluated only GPT-2. To test whether the observed fertility difference is caused by the language script or the tokenizer itself, the experiment was repeated using the multilingual XLM-R tokenizer.
+
+| Language | GPT-2 | XLM-R |
+|----------|-------:|------:|
+| English | 1.31 | 1.45 |
+| Hindi | 7.16 | 1.63 |
+| Kannada | 17.55 | 2.77 |
+| Telugu | 16.41 | 2.16 |
+
+### Analysis
+
+The multilingual tokenizer substantially reduces the fertility differences across languages. Hindi decreases from **5.46×** English under GPT-2 to **1.12×** English under XLM-R. Kannada and Telugu show similar reductions.
+
+If the writing system alone were responsible, similar ratios would be expected across different tokenizers. Instead, the large reduction demonstrates that tokenizer vocabulary and training play a major role.
+
+### Corrected Conclusion
+
+The experimental evidence does not support the claim that the observed fertility difference is an inherent property of Indic scripts. The tokenizer itself has a significant influence on the reported fertility.
+
+
+
+## Claim 4
+
+**Finding:**
+
+The script averages sentence-level fertility values instead of computing fertility over the entire corpus.
+
+### Evidence
+
+Replacing the sentence-level average with corpus-level aggregation (`total_tokens / total_words`) changed the reported fertility values:
+
+| Language | Original | Corpus-level |
+|----------|----------:|-------------:|
+| English | 1.60 | 1.31 |
+| Hindi | 8.01 | 7.16 |
+| Kannada | 18.05 | 17.55 |
+| Telugu | 17.29 | 16.41 |
+
+### Analysis
+
+Averaging per-sentence fertility gives equal weight to short and long sentences, which can bias the overall corpus statistic. Corpus-level aggregation provides a more representative estimate of tokenizer fertility.
+
+### Corrected Conclusion
+
+Corpus-level aggregation should be preferred when reporting fertility over an evaluation corpus.
