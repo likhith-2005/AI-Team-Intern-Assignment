@@ -26,5 +26,62 @@ Successfully created a multilingual corpus containing:
 - Kannada: 1000 sentences
 - Telugu: 1000 sentences
 
-### Next Step
-Audit `fertility.py` and evaluate the tokenizer metrics using the new corpus.
+---
+
+## Day 2 – Part A2 & A3: Fertility Analysis
+
+### Goal
+Evaluate tokenizer fertility across the four languages.
+
+### Experiments
+- Audited the provided `fertility.py`.
+- Compared average-per-sentence vs corpus-level aggregation.
+- Evaluated GPT-2 and XLM-R tokenizers.
+- Computed:
+  - Tokens per word
+  - Tokens per character
+  - Tokens per byte
+  - Tokens per sentence
+
+### Result
+Observed that GPT-2 produces much higher fertility for Indic languages than English, while XLM-R significantly reduces this gap.
+
+---
+
+## Day 3 – Part A4
+
+### Goal
+Summarize findings and recommend suitable tokenization metrics.
+
+### Result
+Recommended monitoring average input tokens per request by language and discussed implications for multilingual LLM serving.
+
+---
+
+## Day 4 – Part B
+
+### Goal
+Analyze KV-cache memory usage, batching behaviour, throughput, and scheduler preemption.
+
+### Result
+Estimated practical concurrency limits, explained throughput degradation at larger batch sizes, and proposed scheduler preemption as the primary monitoring metric.
+
+---
+
+## Day 5 – Part C
+
+### Goal
+Recommend an efficient deployment strategy for multilingual query rewriting.
+
+### Result
+Recommended using a small inference-time rewriting model based on the provided constraints and discussed expected cost and deployment considerations.
+
+---
+
+## Environment
+
+- Python 3.10
+- Hugging Face Datasets
+- Transformers
+- SentencePiece
+- tiktoken
